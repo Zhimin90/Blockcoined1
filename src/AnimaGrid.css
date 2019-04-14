@@ -1,0 +1,53 @@
+.AnimaGrid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: left;
+  height: 800px;
+  width: 800px;
+  background-color: gray;
+}
+
+.box {
+  width: 100px;
+  height: 100px;
+  align-items: center;
+  max-width: 80vh;
+  background: #000;
+}
+.circle {
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: 80px;
+  min-width: 50px;
+  min-height: 50px;
+  width: 80px;
+  height: 80px;
+}
+
+.blue {
+  background-color: transparent;
+  content: url('./img/icon/btc.png');
+}
+.red {
+  background-color: transparent;
+  content: url('./img/icon/eth.png');
+}
+.green {
+  background-color: transparent;
+  content: url('./img/icon/xrp.png');
+}
+.yellow {
+  background-color: transparent;
+  content: url('./img/icon/eos.png');
+}
+.orange {
+  background-color: transparent;
+  content: url('./img/icon/ltc.png');
+}
+
+.queue {
+  display: block;
+  height: 60px;
+  width: 650px;
+  align-items: left;
+}

@@ -1,0 +1,63 @@
+struct Block_Jewel_state_control{
+int state //0-idle empty queue 1-queued waiting for click 2-running score check  3-complete
+int Queue_pos
+int Queue_pos_max = 100;
+name turn //whose turn is current move
+queue() //max 100 moves
+}
+
+[[ACTION]]
+Move(int clicks, name move_by, SHA signature){
+
+assert_signature(move_by, signature)
+assert(state = 1, "please buy queues")
+g = existing_game
+assert(move_by == get_Player_from_queue(g.Queue_pos)) //make sure the move is signed by player queued up
+
+
+if(state = 1){ //flag getting score
+state = running;
+}
+If (g.Queue_pos < Queue_pos_max){
+	g.turn = get_Player_from_queue(g.Queue_pos)
+	set_score_index_table(g.turn, score=score+getScore(clicks))
+	Pop_Queue()}
+
+if(state = running){
+state = idle;
+}
+
+check_game_complete() //this function check if current done. If it is, restart game with higher point multiplier
+
+if(state = idle){
+  if(!queue_empty()){state = 1;}
+}
+
+
+}
+
+[[ACTION]]
+Buy_queue(name host, name buyer, SHA signature, int quantity){
+assert_signature(buyer, signature)
+//after allocated payment to this contract
+while(quantity != 0){
+bool status = Enqueue(buyer, host)
+if (status) {//if queue is full
+return unspent()
+break}
+else{ 
+quantity--}}
+if(!queue_empty()){state = 1;}else{{state = 0;}}
+}
+
+bool Enqueue(name challenger, name host){//add name to queue
+
+}
+
+bool Pop_Queue(name challenger, name host){//remove ram usage from already processsed queues
+existing_queue.erase(itr)
+g.Queue_pos++
+}
+
+bool queue_empty(){
+}

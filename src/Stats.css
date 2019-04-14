@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Sans-Serif;
+  background-color: #ffffff;
+}
+
+h1 {
+  margin: 0;
+  color: #000000;
+}
+h2 {
+  margin: 0;
+  color: #000000;
+}
+.header {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 360px;
+}
+
+.buyheader {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 360px;
+}
+
+.count {
+  padding: 2px;
+  font-size: 10pt;
+  border-width: 1px;
+  border-style: solid;
+  background-color: #23221c;
+  color: #686964;
+}
+
+.count span {
+  text-align: center;
+  font-size: 16pt;
+  display: block;
+}
+
+.stats_box {
+  max-width: 80vh;
+}
+
+.stats {
+  display: block;
+  height: 650px;
+  width: 650px;
+}

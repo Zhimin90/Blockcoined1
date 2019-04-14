@@ -1,0 +1,13 @@
+Struct Timeout {
+LastBlock = none
+}
+
+[[ACTION]]
+
+void steal_turn(host, by) {
+eosio_assert(CurrentBlock - LastBlock > 30, "30 Blocks to Steal, not there yet!!");
+get_queue(_self,host);
+itr = queue.begin();
+queue.modify(itr, by){
+challenger = by;}
+}

@@ -1,0 +1,1 @@
+cleos set account permission blockcoined active '{"threshold": 1, "keys":[{"key":"EOS7VKWD1sj7bJoxiUJJP5zTW6vFqghYM1X9P5hnSuWyUtT6oxiti", "weight":1}] , "accounts":[{"permission":{"actor":"blockcoined","permission":"eosio.code"},"weight":1}], "waits":[] }' owner -p blockcoined

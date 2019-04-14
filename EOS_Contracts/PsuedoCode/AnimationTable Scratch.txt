@@ -1,0 +1,11 @@
+Struct AnimationTable {
+int index
+int Level
+Bool RoworColumn
+int Number
+Vector<Char> View
+Vector<bool> Delete
+}
+
+//everytime Queue.Push() is called emplace into animation table
+//at delete function modify table

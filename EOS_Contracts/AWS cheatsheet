@@ -1,0 +1,2 @@
+scp -i /home/zhimin90/Downloads/AWS_EC2_Keypair.pem eosio.contracts.tar.gz ec2-user@ec2-18-191-77-209.us-east-2.compute.amazonaws.com:~/eosio.contracts/built
+ssh -i /home/zhimin90/Downloads/AWS_EC2_Keypair.pem ec2-user@ec2-18-191-77-209.us-east-2.compute.amazonaws.com

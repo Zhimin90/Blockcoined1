@@ -1,0 +1,42 @@
+.AnimaGrid{
+	display: flex;
+    flex-wrap: wrap;
+    align-items: left;
+    height: 800px;
+    width: 800px;
+    background-color: gray;
+  }
+
+.box {
+    width: 100px;
+    height:  100px;
+    align-items: center;
+    max-width: 80vh;
+    background: #000;
+ }
+ .circle{
+    margin-left: 5px;
+	margin-right: 5px;
+	border-radius: 100px;
+	min-width: 50px;
+    min-height: 50px;
+    width: 100px;
+    height: 100px;
+ }
+ 
+ .blue {
+	background-color: blue;
+}
+.red {
+	background-color: red;
+}
+.green {
+	background-color: green;
+}
+.yellow {
+	background-color: yellow;
+}
+.orange {
+	background-color: orange;
+}
+  
