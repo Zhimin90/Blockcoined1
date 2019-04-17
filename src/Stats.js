@@ -17,6 +17,7 @@ import Sound from "react-sound";
 import TablePagination from "./Table";
 import QueueList from "./Queue";
 import { JsonRpc, RpcError } from "eosjs";
+import CookieConsent, { Cookies } from "react-cookie-consent";
 import "./Stats.css";
 //import './index.css';
 const fetch = require("node-fetch");
@@ -237,6 +238,9 @@ class Stats extends Component {
               ticket={this.state.stats.ticket}
               key={this.state.stats.challengers.key}
             />
+            <CookieConsent>
+              This website uses cookies to enhance the user experience.
+            </CookieConsent>
           </div>
         );
       } else {

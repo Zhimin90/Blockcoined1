@@ -14,6 +14,7 @@
     "eosjs-ecc": "^4.0.4",
     "node-fetch": "^2.3.0",
     "react": "^16.8.4",
+    "react-cookie-consent": "^2.3.0",
     "react-dom": "^16.8.4",
     "react-pose": "^4.0.8",
     "react-redux": "^6.0.1",
