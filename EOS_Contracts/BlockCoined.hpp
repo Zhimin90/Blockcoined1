@@ -41,7 +41,7 @@ class[[eosio::contract]] BlockCoined : public contract
    /// @abi action
    /// Restart a game
    /// @param by the name who wants to restart the game
-   [[eosio::action]] void restart(const name &challenger, const name &host, const name &by);
+   //[[eosio::action]] void restart(const name &challenger, const name &host, const name &by);
 
    /// @abi action
    /// Close an existing game, and remove it from storage
@@ -127,7 +127,7 @@ class[[eosio::contract]] BlockCoined : public contract
       typedef eosio::multi_index<"challengers"_n, challenger_index> chalindex;
       typedef eosio::multi_index<"gamequeue"_n, game_queue_table> queue_table;
 
-      boost::multi_array<char, 2> board_t{boost::extents[8][8]};
+      //boost::multi_array<char, 2> board_t{boost::extents[8][8]};
 
       name host;
       name turn;              // = name name of host/ challenger

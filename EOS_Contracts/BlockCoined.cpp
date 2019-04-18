@@ -682,7 +682,7 @@ void BlockCoined::joinhostgame(const name &host, const name &challenger)
 /**
  * @brief Apply restart action
  */
-void BlockCoined::restart(const name &challenger, const name &host, const name &by)
+/*void BlockCoined::restart(const name &challenger, const name &host, const name &by)
 {
    print("restarted \n ");
    require_auth(by);
@@ -699,7 +699,7 @@ void BlockCoined::restart(const name &challenger, const name &host, const name &
    existing_host_games.modify(itr, itr->host, [](auto &g) {
       g.reset_game();
    });
-}
+}*/
 
 /**
  * @brief Apply close action
@@ -752,7 +752,7 @@ void BlockCoined::close(const name &challenger, const name &host)
    auto itr_ticket = existing_ticket_list.begin();
    while (itr_ticket != existing_ticket_list.end())
    {
-      int qty = itr_ticket->num_ticket;
+      int qty = itr_ticket->num_ticket - 1;
       asset amount(qty * 10000, eosio::symbol("BLC", 4));
       existing_ticket_list.modify(itr_ticket, _self, [&](auto &entry) { //move paid token to exchange for queues
          entry.num_ticket = 0;                                          //will use num_ticket_available as holding
@@ -1190,7 +1190,8 @@ void BlockCoined::refundtoken(const name host, const name challenger)
    auto itr_ticket = existing_ticket_list.find(challenger.value);
    bool no_tickets_yet = (itr_ticket == existing_ticket_list.end());
    eosio_assert(!(no_tickets_yet), "nothing to refund");
-   qty = itr_ticket->num_ticket;
+   qty = itr_ticket->num_ticket - 1;
+
    asset amount(qty * 10000, eosio::symbol("BLC", 4));
    existing_ticket_list.modify(itr_ticket, _self, [&](auto &entry) { //move paid token to exchange for queues
       entry.num_ticket = 0;                                          //will use num_ticket_available as holding
@@ -1223,7 +1224,7 @@ extern "C" void apply(uint64_t receiver, uint64_t code, uint64_t action)
    {
       switch (action)
       {
-         EOSIO_DISPATCH_HELPER(BlockCoined, (restart)(close)(move)(createjgames)(joinhostgame)(buyqueue)(stealturn)(refundtoken));
+         EOSIO_DISPATCH_HELPER(BlockCoined, (close)(move)(createjgames)(joinhostgame)(buyqueue)(stealturn)(refundtoken));
       }
    }
 }
