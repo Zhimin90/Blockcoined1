@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import posed from 'react-pose';
-import { tween } from 'popmotion';
-import './AnimaGrid.css';
+import React, { Component } from "react";
+import posed from "react-pose";
+//import { tween } from 'popmotion';
+import "./AnimaGrid.css";
 
 class Node {
   constructor(id, color) {
@@ -38,7 +38,7 @@ class AnimaGrid extends Component {
     this.board_index = {};
 
     for (let i = 0; i < 8 * 8; i++) {
-      this.nodes[i] = new Node(i, 'red');
+      this.nodes[i] = new Node(i, "red");
       let newPosition = new Position();
       newPosition.index = i;
       newPosition.x =
@@ -54,7 +54,7 @@ class AnimaGrid extends Component {
 
     this.state = {
       init: 0,
-      pose: this.props.pose,
+      pose: this.props.pose
     };
   }
 
@@ -73,31 +73,31 @@ class AnimaGrid extends Component {
         scale: 1,
         x: ({ x }) => x,
         y: ({ y }) => 0,
-        position: 'absolute',
-        boxShadow: '0px 0px 0px rgba(0,0,0,0)',
+        position: "absolute",
+        boxShadow: "0px 0px 0px rgba(0,0,0,0)"
       },
       move: {
         scale: 1,
         x: ({ x }) => x,
         y: ({ y }) => y,
-        position: 'absolute',
-        boxShadow: '0px 0px 0px rgba(0,0,0,0)',
+        position: "absolute",
+        boxShadow: "0px 0px 0px rgba(0,0,0,0)"
       },
       hover: {
         x: ({ x }) => x,
         y: ({ y }) => y,
         scale: 1.2,
-        boxShadow: '0px 5px 10px rgba(0,0,0,0.2)',
+        boxShadow: "0px 5px 10px rgba(0,0,0,0.2)"
       },
       press: {
         scale: 1.3,
-        boxShadow: '0px 2px 5px rgba(0,0,0,0.1)',
-      },
+        boxShadow: "0px 2px 5px rgba(0,0,0,0.1)"
+      }
     });
-    console.log('pose', this.props.pose);
+    console.log("pose", this.props.pose);
 
     let rows = Object.keys(this.positions).map(key => {
-      let classString = 'circle' + ' ' + this.nodes[key].color;
+      let classString = "circle " + this.nodes[key].color;
       return (
         <Circle
           className={classString}

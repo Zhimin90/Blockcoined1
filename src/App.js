@@ -1,22 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  Input,
-  Header,
-  Button,
-  Container,
-  Dropdown,
-  Message,
-  Progress
-} from "semantic-ui-react";
-import _, { isEqual } from "lodash";
+import { Input, Button, Container, Message, Progress } from "semantic-ui-react";
+import _ from "lodash";
 import soundfile from "./sound/Cha-ching-sound.mp3";
 import Sound from "react-sound";
 import AnimaGrid from "./components/PoseGrid/AnimaGrid";
 import { Graph } from "./Graph";
 import { Animation } from "./Anima";
 import posed, { PoseGroup } from "react-pose";
-import { tween } from "popmotion";
 import styled from "styled-components";
 import EOSIOClient from "./eosio-client";
 import { renderGrid, poseToggle, setAnimationCtrl } from "./js/actions/index";
@@ -72,7 +63,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const Winner_Div = styled.h1`
+const WinnerDiv = styled.h1`
   font-size: 3em;
   text-align: center;
   color: red;
@@ -106,16 +97,6 @@ const ItemList = ({ items }) => {
     </ul>
   );
 };
-
-class Position {
-  constructor() {
-    this.index = 0;
-    this.x = 0;
-    this.y = 0;
-  }
-}
-
-const Parent = posed.ul();
 
 const T = styled.div`
   transition: 0.12s;
@@ -196,7 +177,6 @@ class MyComponentWithSound extends React.Component {
     }
   }
   render() {
-    var props = {};
     return <Sound {...this.props} />; // Check props in next section
   }
 }
@@ -285,18 +265,15 @@ class App extends Component {
         }
         this.fetch_array();
         //console.log('game_selected is: ', this.props.game_selected);
-        let score = 0;
-        //this.updateScore(score);
         let newAnimaGrid = this.get_newAnimaGrid();
         let equal = _.isEqual(newAnimaGrid, this.props.redux_animagrid);
 
         if (!equal && this.first_scan) {
           this.current_slice = 0;
-          let score = 0;
-          console.log("current queue is: ", this.props.queue[0]);
+          //console.log("current queue is: ", this.props.queue[0]);
           //if (!this.state.animating) {
-          console.log("called sequencer from DidMount");
-          console.log();
+          //console.log("called sequencer from DidMount");
+          //console.log();
           this.fetch_animation_table(() => {
             this.animating_seq = true;
             this.props.setAnimationCtrl({
@@ -317,7 +294,7 @@ class App extends Component {
   }
 
   animation_sequencer(newAnimaGrid) {
-    console.log("animation: ", this.animation);
+    //console.log("animation: ", this.animation);
     /*if (this.current_slice < this.animation.slice.length) {
       this.animation.merge(
         this.prev_nodes,
@@ -325,26 +302,26 @@ class App extends Component {
         this.current_slice,
       );
     }*/
-    console.log(
-      "before this.props.redux_pose_toggle ",
-      this.props.redux_pose_toggle
-    );
+    //console.log(
+    //  "before this.props.redux_pose_toggle ",
+    //  this.props.redux_pose_toggle
+    //);
     this.props.renderGrid(newAnimaGrid);
     this.props.poseToggle(this.props.redux_pose_toggle ? false : true);
     this.posing = true;
-    console.log("slice size: ", this.animation.slice.length);
+    //console.log("slice size: ", this.animation.slice.length);
     if (this.current_slice < this.animation.slice.length) {
       this.animating_seq = false;
       this.current_slice = 0;
       // this.current_slice = this.current_slice + 1;
       //console.log('newAnimaGrid: ', newAnimaGrid);
     } else {
-      console.log("else called  ...................................");
+      //console.log("else called  ...................................");
       this.animating_seq = false;
       this.current_slice = 0;
     }
     //this.forceUpdate();
-    console.log("current slice is: ", this.current_slice);
+    //console.log("current slice is: ", this.current_slice);
   }
 
   async componentDidUpdate() {
@@ -375,6 +352,8 @@ class App extends Component {
       newAnimaGrid.positions[key].y =
         newAnimaGrid.positions[key].offset.y +
         get_coordinate_y((key % 8) * 80, Math.floor(key / 8) * 80, 0.785398);
+
+      return 0;
     });
 
     return newAnimaGrid;
@@ -391,7 +370,7 @@ class App extends Component {
   }
 
   componentWillUnmount() {
-    console.log("unmounted");
+    //console.log("unmounted");
     clearInterval(this.timer);
     clearInterval(this.timer2);
 
@@ -419,9 +398,7 @@ class App extends Component {
       let nGraph = new Graph(SIZE);
       let board64 = resp.rows[0].board;
       var nNode = nGraph.nodes[1];
-      let nBoard_Index = resp.rows[0].board_index;
-      //var nIndex
-      //console.log("board64 ", board64)
+
       this.prev_nodes = this.nodes;
       this.prev_board_index = this.board_index;
       for (let i = 0; i < board64.length; i++) {
@@ -461,7 +438,7 @@ class App extends Component {
       this.setState({ errormessage: "\nCaught exception: " + e });
       if (e instanceof RpcError) console.log(JSON.stringify(e.json, null, 2));
     }
-    console.log(resp);
+    //console.log(resp);
     let board = this.graph;
     this.animation = new Animation(resp, function() {
       //board = this.merge(board.nodes, 8);
@@ -488,7 +465,7 @@ class App extends Component {
       host: this.props.game_selected
     };
     try {
-      const result = await this.eosio.transaction(actionName, actionData);
+      await this.eosio.transaction(actionName, actionData);
     } catch (e) {
       console.log("\nCaught exception: " + e);
       this.setState({ errormessage: "\nCaught exception: " + e });
@@ -497,13 +474,13 @@ class App extends Component {
   }
 
   async create_game(host) {
-    console.log("tried to create game");
+    //console.log("tried to create game");
     const actionName = "createjgames";
     const actionData = {
       host: this.eosio.account.name
     };
     try {
-      const result = await this.eosio.transaction(actionName, actionData);
+      await this.eosio.transaction(actionName, actionData);
     } catch (e) {
       console.log("\nCaught exception: " + e);
       this.setState({ errormessage: "\nCaught exception: " + e });
@@ -521,7 +498,7 @@ class App extends Component {
       cell_clicked2: C2
     };
     try {
-      const result = await this.eosio.transaction(actionName, actionData);
+      await this.eosio.transaction(actionName, actionData);
     } catch (e) {
       console.log("\nCaught exception: " + e);
       this.setState({ errormessage: "\nCaught exception: " + e });
@@ -530,9 +507,9 @@ class App extends Component {
   }
 
   async buyqueue() {
-    console.log("buy queue");
+    //console.log("buy queue");
     try {
-      const result = await api.transact(
+      await api.transact(
         {
           actions: [
             {
@@ -565,14 +542,14 @@ class App extends Component {
   }
 
   async stealturn() {
-    console.log("stealturn");
+    //console.log("stealturn");
     const actionName = "stealturn";
     const actionData = {
       host: this.props.game_selected,
       by: this.eosio.account.name
     };
     try {
-      const result = await this.eosio.transaction(actionName, actionData);
+      await this.eosio.transaction(actionName, actionData);
     } catch (e) {
       console.log("\nCaught exception: " + e);
       this.setState({ errormessage: "\nCaught exception: " + e });
@@ -586,9 +563,9 @@ class App extends Component {
       host: this.props.game_selected,
       challenger: this.eosio.account.name
     };
-    console.log("join game");
+    //console.log("join game");
     try {
-      const result = await this.eosio.transaction(actionName, actionData);
+      await this.eosio.transaction(actionName, actionData);
     } catch (e) {
       console.log("\nCaught exception: " + e);
       this.setState({ errormessage: "\nCaught exception: " + e });
@@ -604,8 +581,8 @@ class App extends Component {
       quantity: 3
     };
     try {
-      const result = await this.eosio.transaction(actionName, actionData);
-      console.log(result);
+      await this.eosio.transaction(actionName, actionData);
+      //console.log(result);
       //this.getBalance(); // We can check a user's EOS balance.
     } catch (e) {
       console.log("\nCaught exception: " + e);
@@ -621,8 +598,8 @@ class App extends Component {
       challenger: this.eosio.account.name
     };
     try {
-      const result = await this.eosio.transaction(actionName, actionData);
-      console.log(result);
+      await this.eosio.transaction(actionName, actionData);
+      //console.log(result);
       //this.getBalance(); // We can check a user's EOS balance.
     } catch (e) {
       console.log("\nCaught exception: " + e);
@@ -632,25 +609,21 @@ class App extends Component {
   }
 
   async invoice_token_scatter() {
-    console.log(this.state.token_qty);
+    //console.log(this.state.token_qty);
     const actionData = {
       to: "blockcoined1",
       quantity: this.state.token_qty,
       memo: this.props.game_selected
     };
     try {
-      const result = await this.eosio.tokenTransfer(actionData);
-      console.log(result);
+      await this.eosio.tokenTransfer(actionData);
+      //console.log(result);
       //this.getBalance(); // We can check a user's EOS balance.
     } catch (e) {
       console.log("\nCaught exception: " + e);
       this.setState({ errormessage: "\nCaught exception: " + e });
       if (e instanceof RpcError) console.log(JSON.stringify(e.json, null, 2));
     }
-  }
-
-  incrementCount() {
-    this.score = this.score + 1;
   }
 
   restart() {
@@ -665,7 +638,7 @@ class App extends Component {
 
   cellClick(id) {
     this.clicked = true;
-    console.log("clicked ", id);
+    //console.log("clicked ", id);
     var id_prev = this.state.clicked_cell_1;
     //this.state.graph.cellClick(id);
     //console.log("clicked id is: ", id);
@@ -682,16 +655,26 @@ class App extends Component {
 
   checkClicks() {
     if (Math.abs(this.state.clicked_cell_1 - this.state.clicked_cell_2) === 8) {
-      this.sendClicks();
+      if (
+        this.state.clicked_cell_1 !== null &&
+        this.state.clicked_cell_2 !== null
+      ) {
+        this.sendClicks();
+      }
     }
     if (Math.abs(this.state.clicked_cell_1 - this.state.clicked_cell_2) === 1) {
-      this.sendClicks();
+      if (
+        this.state.clicked_cell_1 !== null &&
+        this.state.clicked_cell_2 !== null
+      ) {
+        this.sendClicks();
+      }
     }
   }
 
   sendClicks() {
-    console.log("click 1 sent: ", this.state.clicked_cell_1);
-    console.log("click 2 sent: ", this.state.clicked_cell_2);
+    //console.log("click 1 sent: ", this.state.clicked_cell_1);
+    //console.log("click 2 sent: ", this.state.clicked_cell_2);
     this.move(this.state.clicked_cell_1, this.state.clicked_cell_2);
     this.setState(
       {
@@ -705,21 +688,21 @@ class App extends Component {
   }
 
   posed() {
-    console.log(
-      "before this.props.redux_pose_toggle",
-      this.props.redux_pose_toggle
-    );
+    //console.log(
+    //"before this.props.redux_pose_toggle",
+    //this.props.redux_pose_toggle
+    //);
     this.props.poseToggle(this.props.redux_pose_toggle ? false : true);
 
     if (this.current_slice > 0) {
-      console.log("called sequencer from posed()");
+      //console.log("called sequencer from posed()");
       this.animation_sequencer(this.get_newAnimaGrid());
     }
     //toggle state on PoseGroup to propogate animation to childrens aka a list of Circle
 
     this.posing = false;
 
-    console.log("current_slice onRest is : ", this.current_slice);
+    //console.log("current_slice onRest is : ", this.current_slice);
     if (this.current_slice < this.animation.slice.length) {
       this.current_slice = this.current_slice + 1;
     } else {
@@ -727,7 +710,7 @@ class App extends Component {
       this.current_slice = 0;
       //console.log('animation slice zeroed in Pose Group');
     }
-    console.log("calling next sequencer");
+    //console.log("calling next sequencer");
   }
 
   getPossibleMove(key) {
@@ -741,6 +724,7 @@ class App extends Component {
       ) {
         color = color + "magenta";
       }
+      return 0;
     });
     //console.log("color is ", color);
     return color;
@@ -761,8 +745,6 @@ class App extends Component {
         };
       }
 
-      var count = 0;
-
       return (
         <div className="board">
           <BoardGrid
@@ -771,7 +753,7 @@ class App extends Component {
             enterPose={this.props.redux_pose_toggle ? "enter" : "init"}
             flipMove={false}
             onRest={e => {
-              console.log("________________________Group Animation Complete");
+              //console.log("________________________Group Animation Complete");
               //this.posed();
             }}
           >
@@ -780,7 +762,7 @@ class App extends Component {
               return (
                 <Circle
                   className={
-                    "circle" + " " + this.props.redux_animagrid.nodes[key].color
+                    "circle " + this.props.redux_animagrid.nodes[key].color
                   }
                   key={node.key}
                   x={this.props.redux_animagrid.positions[key].x}
@@ -841,13 +823,13 @@ class App extends Component {
     if (this.state.winner !== "none") {
       return (
         <div>
-          <Winner_Div>
+          <WinnerDiv>
             Game Over!! Winner is{" "}
             <font color="black">{" " + this.state.winner}</font>
-          </Winner_Div>
-          <Winner_Div>
+          </WinnerDiv>
+          <WinnerDiv>
             Tokens will be distributed after the host closes his game.
-          </Winner_Div>
+          </WinnerDiv>
         </div>
       );
     }
@@ -862,7 +844,9 @@ class App extends Component {
 
         <div className="buyheader">
           <Button
-            color={typeof this.props.queue[0] === "undefined" ? "green" : ""}
+            color={
+              typeof this.props.queue[0] === "undefined" ? "green" : "grey"
+            }
             onClick={e => this.enqueue()}
           >
             Buy Queues
@@ -884,24 +868,33 @@ class App extends Component {
             placeholder="Search..."
             defaultValue="10.0000 BLC"
             onChange={(e, data) => {
-              console.log(data);
+              //console.log(data);
               this.setState({ token_qty: data.value });
             }}
           />
         </div>
         <div className="header">
           <Button
-            color={this.state.winner !== "none" ? "green" : ""}
+            color={this.state.winner !== "none" ? "green" : "grey"}
             onClick={e => this.restart()}
           >
             Close Game
           </Button>
-          <Button onClick={e => this.create_game(this.state.challenger_name)}>
+          <Button
+            color="grey"
+            onClick={e => this.create_game(this.state.challenger_name)}
+          >
             New Game
           </Button>
-          <Button onClick={e => this.stealturn()}>Steal Turn</Button>
-          <Button onClick={e => this.joingame()}>Join Game</Button>
-          <Button onClick={e => this.refund()}>Refund Token</Button>
+          <Button color="grey" onClick={e => this.stealturn()}>
+            Steal Turn
+          </Button>
+          <Button color="grey" onClick={e => this.joingame()}>
+            Join Game
+          </Button>
+          <Button color="grey" onClick={e => this.refund()}>
+            Refund Token
+          </Button>
         </div>
         <div>{this.Draw_error()}</div>
         {this.getWinner()}

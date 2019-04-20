@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import { Api, JsonRpc, RpcError, JsSignatureProvider } from 'eosjs';
-import ScatterJS from 'scatterjs-core';
-import ScatterEOS from 'scatterjs-plugin-eosjs2';
+import React from "react";
+import { Api, JsonRpc } from "eosjs";
+import ScatterJS from "scatterjs-core";
+import ScatterEOS from "scatterjs-plugin-eosjs2";
 //const rpc = new JsonRpc('http://145.239.133.201:8888', { fetch });
 //const endpoint = 'http://192.168.80.131:8888';
-const endpoint = 'https://jungle2.cryptolions.io:443';
+const endpoint = "https://jungle2.cryptolions.io:443";
 
 const network = {
-  blockchain: 'eos',
-  protocol: 'https',
-  host: 'jungle2.cryptolions.io',
+  blockchain: "eos",
+  protocol: "https",
+  host: "jungle2.cryptolions.io",
   port: 443,
-  chainId: 'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473',
+  chainId: "e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473"
 };
 
 export default class EOSIOClient extends React.Component {
@@ -23,14 +23,14 @@ export default class EOSIOClient extends React.Component {
 
     try {
       ScatterJS.scatter.connect(this.contractAccount).then(connected => {
-        if (!connected) return console.log('Issue Connecting');
+        if (!connected) return console.log("Issue Connecting");
         const scatter = ScatterJS.scatter;
         const requiredFields = {
-          accounts: [network], // We defined this above
+          accounts: [network] // We defined this above
         };
         scatter.getIdentity(requiredFields).then(() => {
           this.account = scatter.identity.accounts.find(
-            x => x.blockchain === 'eos',
+            x => x.blockchain === "eos"
           );
           const rpc = new JsonRpc(endpoint);
           this.eos = scatter.eos(network, Api, { rpc });
@@ -41,7 +41,7 @@ export default class EOSIOClient extends React.Component {
       console.log(error);
     }
 
-    console.log('Connected to: ', contractAccount);
+    console.log("Connected to: ", contractAccount);
   } // Close the constructor function
 
   transaction = (action, data) => {
@@ -54,19 +54,19 @@ export default class EOSIOClient extends React.Component {
             authorization: [
               {
                 actor: this.account.name,
-                permission: this.account.authority,
-              },
+                permission: this.account.authority
+              }
             ],
             data: {
-              ...data,
-            },
-          },
-        ],
+              ...data
+            }
+          }
+        ]
       },
       {
         blocksBehind: 3,
-        expireSeconds: 30,
-      },
+        expireSeconds: 30
+      }
     );
   };
 
@@ -75,27 +75,27 @@ export default class EOSIOClient extends React.Component {
       {
         actions: [
           {
-            account: 'blocointoken',
-            name: 'transfer',
+            account: "blocointoken",
+            name: "transfer",
             authorization: [
               {
                 actor: this.account.name,
-                permission: this.account.authority,
-              },
+                permission: this.account.authority
+              }
             ],
             data: {
               from: this.account.name,
               to: data.to,
               quantity: data.quantity,
-              memo: data.memo,
-            },
-          },
-        ],
+              memo: data.memo
+            }
+          }
+        ]
       },
       {
         blocksBehind: 3,
-        expireSeconds: 30,
-      },
+        expireSeconds: 30
+      }
     );
   };
 }

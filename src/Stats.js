@@ -3,21 +3,11 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import App from "./App";
 import Fountain from "./Fountain";
 import Howto from "./Howto";
-import _, { isEqual } from "lodash";
-import {
-  Input,
-  Header,
-  Button,
-  Container,
-  Dropdown,
-  Message
-} from "semantic-ui-react";
-import soundfile from "./sound/Cha-ching-sound.mp3";
-import Sound from "react-sound";
+import _ from "lodash";
+import { Header, Container, Dropdown } from "semantic-ui-react";
 import TablePagination from "./Table";
-import QueueList from "./Queue";
 import { JsonRpc, RpcError } from "eosjs";
-import CookieConsent, { Cookies } from "react-cookie-consent";
+import CookieConsent from "react-cookie-consent";
 import "./Stats.css";
 //import './index.css';
 const fetch = require("node-fetch");
@@ -25,13 +15,6 @@ const fetch = require("node-fetch");
 //const rpc = new JsonRpc('http://127.0.0.1:8888', { fetch });
 //const rpc = new JsonRpc('http://192.168.80.131:8888', { fetch });
 const rpc = new JsonRpc("https://jungle2.cryptolions.io:443", { fetch });
-
-class MyComponentWithSound extends React.Component {
-  render() {
-    var props = {};
-    return <Sound {...this.props} />; // Check props in next section
-  }
-}
 
 class Challengers {
   constructor(challenger, score, num_ticket) {
@@ -102,7 +85,7 @@ class Stats extends Component {
   async componentDidMount() {
     this.mounted = true;
     await this.fetch_game_list();
-    console.log("first game in the list is: ", this.state.game_list[0].value);
+    //console.log("first game in the list is: ", this.state.game_list[0].value);
     this.timer = setInterval(() => {
       this.fetch_player_table();
     }, 1000);
@@ -178,6 +161,7 @@ class Stats extends Component {
         value: game.host,
         image: { avatar: false, src: "" }
       };
+      return 0;
     });
 
     this.setState({ game_list: games });
@@ -282,7 +266,3 @@ function RouteEx() {
 }
 
 export default RouteEx;
-/*<QueueList
-queue={this.state.stats.queue}
-key={this.state.stats.queue.key}
-/>*/

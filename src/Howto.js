@@ -1,15 +1,6 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import App from './App';
-import {
-  Input,
-  Header,
-  Button,
-  Container,
-  Dropdown,
-  Message,
-} from 'semantic-ui-react';
-import styled from 'styled-components';
+import React, { Component } from "react";
+import { Header, Container } from "semantic-ui-react";
+//import styled from 'styled-components';
 
 class Howto extends Component {
   constructor(props) {
@@ -17,15 +8,15 @@ class Howto extends Component {
     this.state = {
       stats: {},
       game_list: [],
-      errormessage: '',
-      game_selected: 'default',
+      errormessage: "",
+      game_selected: "default"
     };
   }
 
   async componentDidMount() {}
 
   componentWillUnmount() {
-    console.log('unmounted');
+    console.log("unmounted");
   }
 
   render() {
@@ -36,12 +27,12 @@ class Howto extends Component {
           <Header as="h2">Download Scatter</Header>
           <p>
             In order to interact with the EOS blockchain, players will need to
-            install scatter wallet. This wallet is available at:{' '}
+            install scatter wallet. This wallet is available at:{" "}
             <a href="https://get-scatter.com/">https://get-scatter.com/</a>
           </p>
           <Header as="h2">Jungle Testnet</Header>
           <p>
-            Current version of BlockCoined is running on{' '}
+            Current version of BlockCoined is running on{" "}
             <a href="https://jungletestnet.io/">EOS Jungle testnet</a>. To
             create an EOS account on the Jungle Testnet follow the instructions
             on the next section.
@@ -50,15 +41,12 @@ class Howto extends Component {
             <div class="media-body">
               <h3 class="title-text">Create an Account</h3>
               <p>
-                To create an EOS account on the Jungle TestNet visit{' '}
-                <a
-                  target="_blank"
-                  href="https://monitor.jungletestnet.io/#account"
-                >
+                To create an EOS account on the Jungle TestNet visit{" "}
+                <a href="https://monitor.jungletestnet.io/#account">
                   monitor.jungletestnet.io/#account
-                </a>{' '}
+                </a>{" "}
                 and choose a 12 character username. You can generate the EOS key
-                pairs{' '}
+                pairs{" "}
                 <a href="https://nadejde.github.io/eos-token-sale/">here</a>.
                 Click on generate EOS key in hyperlink. Save the private and
                 public key pair to a text file.
@@ -90,7 +78,7 @@ class Howto extends Component {
             option. To add Jungle Testnet into the list of networks by selecting
             "Your Networks" and click on the blue "Add" Button. Fill in the
             following details.
-          </p>{' '}
+          </p>{" "}
           <p>Blockchain: EOSIO</p>
           <p>Name: JUNGLE</p>
           <p>Host(domain.com or IP): jungle2.cryptolions.io</p>

@@ -10,8 +10,9 @@ class Anima_slice {
       this.anima_array[i] = {
         view: anima_slice.view[i],
         empty_cells: anima_slice.empty[i],
-        board_index: anima_slice.board_index[i],
+        board_index: anima_slice.board_index[i]
       };
+      return 0;
     });
   }
 }
@@ -31,7 +32,7 @@ class Animation {
 
     let size = this.slice[slice_num].anima_array.length;
 
-    console.log('size', size);
+    //console.log('size', size);
     //board.map( (color) => console.log(color));
     /*Object.keys(board).map( (key, index) =>
     board[key].color
@@ -39,10 +40,10 @@ class Animation {
     //await console.log("board is ", board[0].color)
     //await console.log("slice is ", this.slice[0].orientation)
     //await console.log("slice is ", this.slice[0].empty_cells[0])
-    console.log('this slice in merge is: ', this.slice);
-    console.log('slice number in merge is', slice_num);
-    if (typeof this.slice[0] !== 'undefined') {
-      if (typeof this.slice[0].anima_array !== 'undefined') {
+    //console.log('this slice in merge is: ', this.slice);
+    //console.log('slice number in merge is', slice_num);
+    if (typeof this.slice[0] !== "undefined") {
+      if (typeof this.slice[0].anima_array !== "undefined") {
         for (let i = 0; i < this.slice[slice_num].anima_array.length; i++) {
           /*console.log(
             '??????????????????????????????',
