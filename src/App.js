@@ -293,7 +293,7 @@ class App extends Component {
         if (!equal && this.first_scan) {
           this.current_slice = 0;
           let score = 0;
-
+          console.log("current queue is: ", this.props.queue[0]);
           //if (!this.state.animating) {
           console.log("called sequencer from DidMount");
           console.log();
@@ -861,7 +861,12 @@ class App extends Component {
         </div>
 
         <div className="buyheader">
-          <Button onClick={e => this.enqueue()}>Buy Queues</Button>
+          <Button
+            color={typeof this.props.queue[0] === "undefined" ? "green" : ""}
+            onClick={e => this.enqueue()}
+          >
+            Buy Queues
+          </Button>
           <Input
             action={
               <Button
@@ -885,7 +890,12 @@ class App extends Component {
           />
         </div>
         <div className="header">
-          <Button onClick={e => this.restart()}>Close Game</Button>
+          <Button
+            color={this.state.winner !== "none" ? "green" : ""}
+            onClick={e => this.restart()}
+          >
+            Close Game
+          </Button>
           <Button onClick={e => this.create_game(this.state.challenger_name)}>
             New Game
           </Button>
