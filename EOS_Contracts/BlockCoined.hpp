@@ -64,6 +64,9 @@ class[[eosio::contract]] BlockCoined : public contract
 
    [[eosio::action]] void refundtoken(const name host, const name challenger);
 
+   void transfer_action(const name buyer, const name reciever, const asset quantity, const std::string memo);
+
+ private:
    int i = 0;
    int j = 0;
    int num = 8;
@@ -239,9 +242,7 @@ class[[eosio::contract]] BlockCoined : public contract
    typedef eosio::multi_index<"tickettable"_n, playertickets> ticketlist;
    typedef eosio::multi_index<"gamelist"_n, game_list> gamelist;
 
-   void transfer_action(const name buyer, const name reciever, const asset quantity, const std::string memo);
-
- private:
+   //private:
    std::queue<int> myqueue;
 
    //array for manipulation

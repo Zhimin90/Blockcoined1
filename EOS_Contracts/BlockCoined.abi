@@ -23,20 +23,6 @@
         }
       ]
     },{
-      "name": "restart",
-      "base": "",
-      "fields": [{
-          "name": "challenger",
-          "type": "name"
-        },{
-          "name": "host",
-          "type": "name"
-        },{
-          "name": "by",
-          "type": "name"
-        }
-      ]
-    },{
       "name": "close",
       "base": "",
       "fields": [{
@@ -212,37 +198,59 @@
         }
   ],
   "actions": [{
-      "name": "restart",
-      "type": "restart",
-      "ricardian_contract": ""
-    },{
       "name": "close",
       "type": "close",
-      "ricardian_contract": ""
+      "ricardian_contract": "## Signup Terms & Conditions
+
+I, {{by}} is acknowledging this action {{close}} will remove all tables under {{host}} scope and return ram to their assumed owners.
+I, {{by}} accept this action {{close}} will return tickets to their owners in equal amount of BLC tokens in blocointoken contract.
+I, {{by}} is acknowledging this action {{close}} will NOT return queues or turns back to challengers. All purchased queues through {{buyqueue}} action will be lost. This contract {{blockcoined1}} will with hold BLC tokens form blocointoken contract that has been exchanged for tickets that was used to purchase queues or turns."
     },{
       "name": "move",
       "type": "move",
-      "ricardian_contract": ""
+      "ricardian_contract": "## Signup Terms & Conditions
+
+I, {{by}} is acknowledging the positions of {{cell_clicked1}} and {{cell_clicked2}} will swap in the {{host}} host's game.
+I, {{by}} accept the rest of the board will moving by the code of the blockcoined smart contract.
+I, {{by}} accept the score of this move is given by the code of the blockcoined smart contract.
+I, {{by}} is acknowledging another player can invoke {{stealturn}} action after 60 blocks has been passed starting at the block this {{move}} action is processed.
+I, {{by}} is acknowledging top table {{gamequeue}} row will be removed and ram will be returned to me {{by}}."
     },{
       "name": "createjgames",
       "type": "createjgames",
-      "ricardian_contract": ""
+      "ricardian_contract": "## Signup Terms & Conditions
+
+I, {{host}} is creating a new board game in this contract {{blockcoined1}} and creating 5 tables and assuming my own costs for RAM.
+I, {{host}} is acknowledging the ram is consumed after invoking the {{createjgames}} action and will be returned after I, {{host}} invoke close action in this contract."
     },{
       "name": "joinhostgame",
       "type": "joinhostgame",
-      "ricardian_contract": ""
+      "ricardian_contract": "## Signup Terms & Conditions
+
+I, {{challenger}} is joining the game hosted already by another player and assuming my own costs for RAM for tracking my own game score and tickets in this {{host}} game.
+I, {{challenger}} is acknowledging the ram consumed after invoking the {{joingame}} action will be returned only after the host {{host}} invoke {{close}} action in this {{blockcoined1}} contract."
     },{
       "name": "buyqueue",
       "type": "buyqueue",
-      "ricardian_contract": ""
+      "ricardian_contract": "## Signup Terms & Conditions
+
+I, {{challenger}} is acknowledging that the {{quantity}} number of my ticket in {{host}} host's game will be exchanged for the same {{quantity}} number of queues or turns.
+I, {{challenger}} is acknowledging each queue or turn will be a new row entry to the queue table {{gamequeue}} which I, {{challenger}} will assume the ram cost.
+I, {{challenger}} is acknowledging the ram consumed after invoking the {{buyqueue}} action will not be able to be refunded back into tickets directly when the host invokes the {{close}} action and leave the game."
       },{
       "name": "stealturn",
       "type": "stealturn",
-      "ricardian_contract": ""
+      "ricardian_contract": "## Signup Terms & Conditions
+
+I, {{by}} is acknowledging the ram cost for the top row entry to the queue table {{gamequeue}} will assumed by me {{by}}.
+I, {{by}} is acknowledging another player can invoke {{stealturn}} action after 60 blocks has been passed starting at the block this {{move}} action is processed even after a {{stealturn}} action has been invoked by {{by}}."
       },{
       "name": "refundtoken",
       "type": "refundtoken",
-      "ricardian_contract": ""
+      "ricardian_contract": "## Signup Terms & Conditions
+
+I, {{by}} accept this action {{close}} will return tickets to their owners in equal amount of BLC tokens in blocointoken contract.
+I, {{by}} is acknowledging this action {{close}} will NOT return queues or turns back to challengers."
       }
   ],
   "tables": [{
