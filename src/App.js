@@ -228,7 +228,6 @@ class App extends Component {
     this.queue_save = {};
 
     this.state = {
-      network: "jungle", //jungle, local or mainnet
       pose_toggle: false,
       //animagrid: new AnimaGrid(SIZE), //moved to redux store
       clicked_cell_1: null,
@@ -239,7 +238,9 @@ class App extends Component {
       token_qty: "10.0000 BLC",
       winner: "none"
     };
-    this.eosio = new EOSIOClient("blockcoined1");
+    this.eosio = new EOSIOClient("blockcoined1", {
+      redux_network: this.props.redux_network
+    });
   }
 
   /*shouldComponentUpdate(nextProps, nextState) {
@@ -256,6 +257,7 @@ class App extends Component {
       if (this.first_scan === 0) {
         // await this.create_game();
       }
+
       this.props.renderGrid(this.get_newAnimaGrid());
 
       this.timer = setInterval(() => {

@@ -12,11 +12,11 @@ import { updateNetwork } from "./js/actions/index";
 import CookieConsent from "react-cookie-consent";
 import "./Stats.css";
 //import './index.css';
-const fetch = require("node-fetch");
+//const fetch = require("node-fetch");
 //const rpc = new JsonRpc('http://18.191.77.209:8888', { fetch });
 //const rpc = new JsonRpc('http://127.0.0.1:8888', { fetch });
 //const rpc = new JsonRpc('http://192.168.80.131:8888', { fetch });
-const rpc = new JsonRpc("https://jungle2.cryptolions.io:443", { fetch });
+//const rpc = new JsonRpc("https://jungle2.cryptolions.io:443", { fetch });
 
 const endpoint_mainnet = "https://jungle2.cryptolions.io:443";
 const network_mainnet = {
@@ -123,12 +123,10 @@ class Stats extends Component {
       game_selected: "default",
       network_selected: "local"
     };
-    this.rpc = {};
   }
 
   async componentDidMount() {
     this.mounted = true;
-    this.rpc = this.props.redux_network.rpc;
     await this.fetch_game_list();
     //console.log("first game in the list is: ", this.state.game_list[0].value);
     this.timer = setInterval(() => {
@@ -161,7 +159,7 @@ class Stats extends Component {
         limit: 100
       }); // maximum number of rows that we want to get
 
-      var resp3 = await this.rpc.get_table_rows({
+      var resp3 = await this.props.redux_network.rpc.get_table_rows({
         json: true, // Get the response as json
         code: "blockcoined1", // Contract that we target
         scope: this.state.game_selected, // Account that owns the data
@@ -185,7 +183,7 @@ class Stats extends Component {
 
   async fetch_game_list() {
     try {
-      var resp = await this.rpc.get_table_rows({
+      var resp = await this.props.redux_network.rpc.get_table_rows({
         json: true, // Get the response as json
         code: "blockcoined1", // Contract that we target
         scope: "blockcoined1", // Account that owns the data
@@ -197,7 +195,7 @@ class Stats extends Component {
       this.setState({ errormessage: "\nCaught exception: " + e });
       if (e instanceof RpcError) console.log(JSON.stringify(e.json, null, 2));
     }
-    console.log(this.rpc);
+    console.log("redux_rpc is : ", this.props.redux_network.rpc);
     var games = [];
     resp.rows.map((game, index) => {
       games[index] = {
@@ -248,10 +246,30 @@ class Stats extends Component {
               placeholder="Select Network"
               fluid
               selection
-              options={this.state.game_list}
-              onClick={e => this.setNetwork(this.state.network_selected)}
+              options={[
+                {
+                  key: 0,
+                  text: "Mainnet",
+                  value: "mainnet",
+                  image: { avatar: false, src: "" }
+                },
+                {
+                  key: 1,
+                  text: "Jungle",
+                  value: "jungle",
+                  image: { avatar: false, src: "" }
+                },
+                {
+                  key: 2,
+                  text: "Local",
+                  value: "local",
+                  image: { avatar: false, src: "" }
+                }
+              ]}
+              onClick={e => {}}
               onChange={(event, { value }) => {
-                this.setState({ game_selected: value });
+                this.setNetwork(value);
+                this.setState({ network_selected: value });
               }}
             />
 
@@ -290,6 +308,7 @@ class Stats extends Component {
   }
 
   setNetwork(NetworkName) {
+    console.log("network selected: ", NetworkName);
     switch (NetworkName) {
       case "mainnet":
         const rpc_m = new JsonRpc(endpoint_mainnet);
@@ -299,6 +318,7 @@ class Stats extends Component {
           network: network_mainnet
         };
         this.props.updateNetwork(network_m);
+        break;
       case "jungle":
         const rpc_j = new JsonRpc(endpoint_jungle);
         var network_j = {
@@ -307,6 +327,7 @@ class Stats extends Component {
           network: network_jungle
         };
         this.props.updateNetwork(network_j);
+        break;
       case "local":
         const rpc_l = new JsonRpc(endpoint_local);
         var network_l = {
@@ -315,6 +336,7 @@ class Stats extends Component {
           network: network_local
         };
         this.props.updateNetwork(network_l);
+        break;
       default:
     }
   }
