@@ -14,6 +14,13 @@ const network = {
   chainId: "e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473"
 };
 
+//react-redux connector
+const mapStateToProps = state => {
+  return {
+    redux_network: state.network
+  };
+};
+
 export default class EOSIOClient extends React.Component {
   constructor(contractAccount) {
     super(contractAccount);
@@ -26,14 +33,14 @@ export default class EOSIOClient extends React.Component {
         if (!connected) return console.log("Issue Connecting");
         const scatter = ScatterJS.scatter;
         const requiredFields = {
-          accounts: [network] // We defined this above
+          accounts: [redux_network.network] // We defined this above
         };
         scatter.getIdentity(requiredFields).then(() => {
           this.account = scatter.identity.accounts.find(
             x => x.blockchain === "eos"
           );
-          const rpc = new JsonRpc(endpoint);
-          this.eos = scatter.eos(network, Api, { rpc });
+          const rpc = new JsonRpc(redux_network.endpoint);
+          this.eos = scatter.eos(redux_network.network, Api, { rpc });
         });
         window.ScatterJS = null; // Don't forget to do this!
       });

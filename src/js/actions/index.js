@@ -3,7 +3,8 @@ import {
   POSE_TOGGLE,
   ANIMATION,
   UPDATE_GRID,
-} from '../constants/action-types';
+  NETWORK_POINTER
+} from "../constants/action-types";
 
 export function renderGrid(payload) {
   return { type: RENDER_GRID, payload };
@@ -19,4 +20,8 @@ export function setAnimationCtrl(payload) {
 
 export function updateGrid(payload) {
   return { type: UPDATE_GRID, payload };
+}
+
+export function updateNetwork(payload) {
+  return { type: NETWORK_POINTER, payload };
 }

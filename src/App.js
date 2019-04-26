@@ -36,6 +36,7 @@ const fetch = require("node-fetch");
 //const rpc = new JsonRpc('http://127.0.0.1:8888', { fetch });
 //const rpc = new JsonRpc('http://192.168.80.131:8888', { fetch });
 const rpc = new JsonRpc("https://jungle2.cryptolions.io:443", { fetch });
+//const rpc_local = new JsonRpc("http://192.168.171.128:8888", { fetch });
 const api = new Api({
   rpc,
   signatureProvider,
@@ -51,7 +52,8 @@ const mapStateToProps = state => {
   return {
     redux_animagrid: state.grid,
     redux_pose_toggle: state.pose_toggle,
-    redux_animation: state.animation_ctrl
+    redux_animation: state.animation_ctrl,
+    redux_network: state.network
   };
 };
 
@@ -226,6 +228,7 @@ class App extends Component {
     this.queue_save = {};
 
     this.state = {
+      network: "jungle", //jungle, local or mainnet
       pose_toggle: false,
       //animagrid: new AnimaGrid(SIZE), //moved to redux store
       clicked_cell_1: null,
@@ -381,7 +384,7 @@ class App extends Component {
 
   async fetch_array() {
     try {
-      var resp = await rpc.get_table_rows({
+      var resp = await this.props.redux_network.rpc.get_table_rows({
         json: true, // Get the response as json
         code: "blockcoined1", // Contract that we target
         scope: this.props.game_selected, // Account that owns the data
@@ -426,7 +429,7 @@ class App extends Component {
 
   async fetch_animation_table(callback) {
     try {
-      var resp = await rpc.get_table_rows({
+      var resp = await this.props.redux_network.rpc.get_table_rows({
         json: true, // Get the response as json
         code: "blockcoined1", // Contract that we target
         scope: this.props.game_selected, // Account that owns the data
