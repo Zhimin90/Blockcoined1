@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import App from "./App";
 import Fountain from "./Fountain";
 import Howto from "./Howto";
+import Airgrab from "./Airgrab";
 import _ from "lodash";
 import { Header, Container, Dropdown } from "semantic-ui-react";
 import TablePagination from "./Table";
@@ -195,7 +196,7 @@ class Stats extends Component {
       this.setState({ errormessage: "\nCaught exception: " + e });
       if (e instanceof RpcError) console.log(JSON.stringify(e.json, null, 2));
     }
-    console.log("redux_rpc is : ", this.props.redux_network.rpc);
+    //console.log("redux_rpc is : ", this.props.redux_network.rpc);
     var games = [];
     resp.rows.map((game, index) => {
       games[index] = {
@@ -363,16 +364,22 @@ function How() {
   return <Howto />;
 }
 
+function Grab() {
+  return <Airgrab />;
+}
+
 function RouteEx() {
   return (
     <Router>
       <div>
         <Link to="/">BlockCoined | </Link>
         <Link to="/fountain">Token Fountain | </Link>
-        <Link to="/howto">How to play </Link>
+        <Link to="/howto">How to play | </Link>
+        <Link to="/airgrab">AirGrab Token</Link>
         <Route exact path="/" component={Home} />
         <Route exact path="/fountain" component={Fountain_func} />
         <Route exact path="/howto" component={How} />
+        <Route exact path="/airgrab" component={Grab} />
       </div>
     </Router>
   );

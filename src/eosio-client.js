@@ -14,7 +14,6 @@ class EOSIOClient extends React.Component {
     ScatterJS.plugins(new ScatterEOS());
 
     try {
-      console.log(this.redux_network);
       ScatterJS.scatter.connect(this.contractAccount).then(connected => {
         if (!connected) return console.log("Issue Connecting");
         const scatter = ScatterJS.scatter;

@@ -16,33 +16,7 @@ import "./AnimaGrid.css";
 
 //import './index.css';
 
-import { Api, JsonRpc, RpcError } from "eosjs";
-
-import JsSignatureProvider from "eosjs/dist/eosjs-jssig"; // development only
-
-const defaultPrivateKey = "5KdYVxFXHXhqU5d53x5bQcPRWfi7FfDJmuhQbb1YU2vqs7QtyE4";
-const bob_PrivateKey = "5JwnqdADow3amsqZK7bLU533zFkiLPFPaqYMnjxi8YqFRdoto4e"; // useraaaaaaaa
-const alice_PrivateKey = "5HynzjwRBZaaLv1TbhmjRXbj8fq4jLuzesshVJMMXkGwdY49RfY";
-const all_keys = "5KefJBcv3KUvHJY8aHtTiUoFn9TX6JjdJipSdwSQAteuR5pfV2n";
-const signatureProvider = new JsSignatureProvider([
-  all_keys,
-  defaultPrivateKey,
-  bob_PrivateKey,
-  alice_PrivateKey
-]);
-
-const fetch = require("node-fetch");
-//const rpc = new JsonRpc('http://18.191.77.209:8888', { fetch });
-//const rpc = new JsonRpc('http://127.0.0.1:8888', { fetch });
-//const rpc = new JsonRpc('http://192.168.80.131:8888', { fetch });
-const rpc = new JsonRpc("https://jungle2.cryptolions.io:443", { fetch });
-//const rpc_local = new JsonRpc("http://192.168.171.128:8888", { fetch });
-const api = new Api({
-  rpc,
-  signatureProvider,
-  textDecoder: new TextDecoder(),
-  textEncoder: new TextEncoder()
-});
+import { RpcError } from "eosjs";
 
 const SIZE = 8;
 const COLORS = ["blue", "red", "green", "yellow", "orange"];
@@ -270,7 +244,6 @@ class App extends Component {
           this.eosio = new EOSIOClient("blockcoined1", {
             redux_network: this.props.redux_network
           });
-          console.log("network updated in here !!");
         }
         this.last_network = this.props.redux_network;
         //console.log('animating_seq: ', this.animating_seq);
@@ -516,41 +489,6 @@ class App extends Component {
     };
     try {
       await this.eosio.transaction(actionName, actionData);
-    } catch (e) {
-      console.log("\nCaught exception: " + e);
-      this.setState({ errormessage: "\nCaught exception: " + e });
-      if (e instanceof RpcError) console.log(JSON.stringify(e.json, null, 2));
-    }
-  }
-
-  async buyqueue() {
-    //console.log("buy queue");
-    try {
-      await api.transact(
-        {
-          actions: [
-            {
-              account: "blockcoined1",
-              name: "buyqueue",
-              authorization: [
-                {
-                  actor: this.state.challenger_name,
-                  permission: "active"
-                }
-              ],
-              data: {
-                host: this.props.game_selected,
-                buyer: this.state.challenger_name,
-                quantity: 1
-              }
-            }
-          ]
-        },
-        {
-          blocksBehind: 6,
-          expireSeconds: 60
-        }
-      );
     } catch (e) {
       console.log("\nCaught exception: " + e);
       this.setState({ errormessage: "\nCaught exception: " + e });
