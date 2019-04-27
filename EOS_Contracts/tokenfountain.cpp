@@ -36,10 +36,10 @@ class[[eosio::contract]] TokenFountain : public contract
 
     struct [[eosio::table]] claimed_info
     {
-        uint64_t last_claimed_block_num;
+        uint64_t last_claimed_time;
         name recipient;
         uint64_t primary_key() const { return recipient.value; }
-        EOSLIB_SERIALIZE(claimed_info, (last_claimed_block_num)(recipient))
+        EOSLIB_SERIALIZE(claimed_info, (last_claimed_time)(recipient))
     };
     typedef eosio::multi_index<"claiminfo"_n, claimed_info> claim_t;
 
@@ -80,18 +80,19 @@ class[[eosio::contract]] TokenFountain : public contract
         print("claimable amount is: ", claimable_amount.amount);
         eosio_assert(claimable_amount.amount <= ac.balance.amount, "cannot claim token as of now");
         require_auth(recipient);
-        uint64_t block_number = tapos_block_num();
+        uint64_t timestamp = now();
+        //uint32_t block_number = tapos_block_num();
         claim_t existing_claimed_table(_self, _self.value);
         auto itr = existing_claimed_table.find(recipient.value);
         if (itr == existing_claimed_table.end())
         {
-            existing_claimed_table.emplace(recipient, [&](auto &row) { row.last_claimed_block_num = block_number; 
+            existing_claimed_table.emplace(recipient, [&](auto &row) { row.last_claimed_time = timestamp; 
             row.recipient = recipient; });
         }
         else
         {
-            eosio_assert(itr->last_claimed_block_num + 120 < block_number, "please wait one day until each claim");
-            existing_claimed_table.modify(itr, recipient, [&](auto &row) { row.last_claimed_block_num = block_number; });
+            eosio_assert(itr->last_claimed_time + 120 < timestamp, "please wait one day until each claim");
+            existing_claimed_table.modify(itr, recipient, [&](auto &row) { row.last_claimed_time = timestamp; });
         }
         //send token 100 tokens to recipient from this contract below
         action(
@@ -104,5 +105,23 @@ class[[eosio::contract]] TokenFountain : public contract
         claim_token.modify(itr_c, _self, [&](auto &row) { row.num_of_claimable_token -= 100; });
         //claim_token.erase(itr_c);
     }
+
+        [[eosio::action]] void
+        close(name host)
+    {
+        require_auth(host);
+        claim_num claim_token(_self, host.value);
+        auto itr_temp = claim_token.begin();
+        while (itr_temp != claim_token.end())
+        {
+            itr_temp = claim_token.erase(itr_temp);
+        }
+        claim_t existing_claimed_table(_self, host.value);
+        auto itr_temp2 = existing_claimed_table.begin();
+        while (itr_temp2 != existing_claimed_table.end())
+        {
+            itr_temp2 = existing_claimed_table.erase(itr_temp2);
+        }
+    }
 };
-EOSIO_DISPATCH(TokenFountain, (claim))
+EOSIO_DISPATCH(TokenFountain, (claim)(close))
