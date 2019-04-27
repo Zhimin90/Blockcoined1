@@ -1,18 +1,10 @@
 import React from "react";
-import { connect } from "react-redux";
 import { Api, JsonRpc } from "eosjs";
 import ScatterJS from "scatterjs-core";
 import ScatterEOS from "scatterjs-plugin-eosjs2";
 //import { defaultCipherList } from "constants";
 //const rpc = new JsonRpc('http://145.239.133.201:8888', { fetch });
 //const endpoint = 'http://192.168.80.131:8888';
-
-//react-redux connector
-const mapStateToProps = state => {
-  return {
-    redux_network: state.network
-  };
-};
 
 class EOSIOClient extends React.Component {
   constructor(contractAccount, { redux_network }) {
@@ -102,10 +94,5 @@ class EOSIOClient extends React.Component {
     );
   };
 }
-
-const EOSIOClient_wrap = connect(
-  mapStateToProps,
-  null
-)(EOSIOClient);
 
 export default EOSIOClient;

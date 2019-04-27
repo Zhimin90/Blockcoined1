@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Button, Message } from "semantic-ui-react";
 import { JsonRpc, RpcError } from "eosjs";
 import EOSIOClient from "./eosio-client";
@@ -9,6 +10,13 @@ const fetch = require("node-fetch");
 //const rpc = new JsonRpc('http://127.0.0.1:8888', { fetch });
 //const rpc = new JsonRpc('http://192.168.80.131:8888', { fetch });
 const rpc = new JsonRpc("https://jungle2.cryptolions.io:443", { fetch });
+//react-redux connector
+
+const mapStateToProps = state => {
+  return {
+    redux_network: state.network
+  };
+};
 
 class Fountain extends Component {
   constructor(props) {
@@ -19,7 +27,9 @@ class Fountain extends Component {
       errormessage: "",
       game_selected: "default"
     };
-    this.eosio = new EOSIOClient("blocfountain");
+    this.eosio = new EOSIOClient("blocfountain", {
+      redux_network: this.props.redux_network
+    });
   }
 
   async componentDidMount() {
@@ -90,4 +100,10 @@ class Fountain extends Component {
     );
   }
 }
-export default Fountain;
+
+const Fountain_wrap = connect(
+  mapStateToProps,
+  null
+)(Fountain);
+
+export default Fountain_wrap;
