@@ -15,7 +15,7 @@ import "./Stats.css";
 //const fetch = require("node-fetch");
 //const rpc = new JsonRpc('http://18.191.77.209:8888', { fetch });
 //const rpc = new JsonRpc('http://127.0.0.1:8888', { fetch });
-//const rpc = new JsonRpc('http://192.168.80.131:8888', { fetch });
+//const rpc = new JsonRpc('http://192.168.80.133:8888', { fetch });
 //const rpc = new JsonRpc("https://jungle2.cryptolions.io:443", { fetch });
 
 const endpoint_mainnet = "https://jungle2.cryptolions.io:443";
@@ -36,11 +36,11 @@ const network_jungle = {
   chainId: "e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473"
 };
 
-const endpoint_local = "http://192.168.171.130:8888";
+const endpoint_local = "http://192.168.0.133:8888";
 const network_local = {
   blockchain: "eos",
   protocol: "http",
-  host: "192.168.171.130",
+  host: "192.168.0.133",
   port: 8888,
   chainId: "cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f"
 };
@@ -166,18 +166,18 @@ class Stats extends Component {
         table: "tickettable", // Table name
         limit: 100
       }); // maximum number of rows that we want to get
+
+      let stats = new Stats_obj(1, resp, resp2, resp3);
+      //this.setState({ stats: stats });
+      let equal = _.isEqual(stats, this.state.stats);
+      this.stats = stats;
+      if (this.first_scan === 1 || !equal) {
+        this.setState({ stats: stats });
+        this.first_scan = 0;
+      }
     } catch (e) {
       console.log("\nCaught exception: " + e);
       if (e instanceof RpcError) console.log(JSON.stringify(e.json, null, 2));
-    }
-
-    let stats = new Stats_obj(1, resp, resp2, resp3);
-    //this.setState({ stats: stats });
-    let equal = _.isEqual(stats, this.state.stats);
-    this.stats = stats;
-    if (this.first_scan === 1 || !equal) {
-      this.setState({ stats: stats });
-      this.first_scan = 0;
     }
   }
 
