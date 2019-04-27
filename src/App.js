@@ -226,6 +226,7 @@ class App extends Component {
     this.animating_seq = false;
     this.posing = false;
     this.queue_save = {};
+    this.last_network = {};
 
     this.state = {
       pose_toggle: false,
@@ -261,6 +262,17 @@ class App extends Component {
       this.props.renderGrid(this.get_newAnimaGrid());
 
       this.timer = setInterval(() => {
+        let network_change = _.isEqual(
+          this.last_network,
+          this.props.redux_network
+        );
+        if (!network_change) {
+          this.eosio = new EOSIOClient("blockcoined1", {
+            redux_network: this.props.redux_network
+          });
+          console.log("network updated in here !!");
+        }
+        this.last_network = this.props.redux_network;
         //console.log('animating_seq: ', this.animating_seq);
         if (typeof this.eosio.account === "undefined") {
           this.setState({
