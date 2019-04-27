@@ -674,9 +674,17 @@ void BlockCoined::joinhostgame(const name &host, const name &challenger)
             index.challenger = challenger;
          });
       }
-
-      //g.challengers_vec.push_back(challenger_st);
    });
+   ticketlist existing_ticket_list(_self, host.value);
+   auto itr_ticket = existing_ticket_list.find(challenger.value);
+   bool no_tickets_yet = (itr_ticket == existing_ticket_list.end());
+   if (no_tickets_yet)
+   {                                                         //contract pays
+      existing_ticket_list.emplace(_self, [&](auto &entry) { //add new row to table
+         entry.challenger = challenger;
+         entry.num_ticket = 0;
+      });
+   }
 }
 
 /**
