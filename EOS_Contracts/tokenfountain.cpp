@@ -102,7 +102,7 @@ class[[eosio::contract]] TokenFountain : public contract
             std::make_tuple(_self, recipient, amount, std::string("from fountain")))
             .send();
 
-        claim_token.modify(itr_c, _self, [&](auto &row) { row.num_of_claimable_token -= 100; });
+        claim_token.modify(itr_c, _self, [&](auto &row) { row.num_of_claimable_token -= 50; });
         //claim_token.erase(itr_c);
     }
 
