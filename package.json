@@ -49,7 +49,7 @@
   "eslintConfig": {
     "extends": "./node_modules/react-scripts/config/eslint.js"
   },
-  "homepage": "",
+  "homepage": "https://www.blockcoined.com",
   "browserslist": [
     ">0.2%",
     "not dead",

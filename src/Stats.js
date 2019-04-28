@@ -19,11 +19,11 @@ import "./Stats.css";
 //const rpc = new JsonRpc('http://192.168.80.133:8888', { fetch });
 //const rpc = new JsonRpc("https://jungle2.cryptolions.io:443", { fetch });
 
-const endpoint_mainnet = "https://mainnet.genereos.io:443";
+const endpoint_mainnet = "https://eos.greymass.com:443";
 const network_mainnet = {
   blockchain: "eos",
   protocol: "https",
-  host: "mainnet.genereos.io",
+  host: "eos.greymass.com",
   port: 443,
   chainId: "aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906"
 };
@@ -374,8 +374,8 @@ function RouteEx() {
       <div>
         <Link to="/">BlockCoined | </Link>
         <Link to="/fountain">Token Fountain | </Link>
-        <Link to="/howto">How to play | </Link>
-        <Link to="/airgrab">AirGrab Token</Link>
+        <Link to="/airgrab">AirGrab Token | </Link>
+        <Link to="/howto">How to play </Link>
         <Route exact path="/" component={Home} />
         <Route exact path="/fountain" component={Fountain_func} />
         <Route exact path="/howto" component={How} />

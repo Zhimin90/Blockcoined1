@@ -240,14 +240,18 @@ class App extends Component {
           this.last_network,
           this.props.redux_network
         );
-        if (!network_change) {
+        if (!network_change && this.first_scan) {
+          this.eosio.removeIdentity();
           this.eosio = new EOSIOClient("blockcoined1", {
             redux_network: this.props.redux_network
           });
         }
         this.last_network = this.props.redux_network;
         //console.log('animating_seq: ', this.animating_seq);
-        if (typeof this.eosio.account === "undefined") {
+
+        //if (typeof this.eosio.account === "undefined") {
+        if (!this.eosio.getConnectionStatus()) {
+          clearTimeout(this.error_timer);
           this.setState({
             errormessage: "\nCan't connect to Scatter account! "
           });
@@ -409,6 +413,7 @@ class App extends Component {
       }
     } catch (e) {
       console.log("\nCaught exception: " + e);
+      clearTimeout(this.error_timer);
       this.setState({ errormessage: "\nCaught exception: " + e });
       if (e instanceof RpcError) console.log(JSON.stringify(e.json, null, 2));
     }
@@ -425,6 +430,7 @@ class App extends Component {
       }); // maximum number of rows that we want to get
     } catch (e) {
       console.log("\nCaught exception: " + e);
+      clearTimeout(this.error_timer);
       this.setState({ errormessage: "\nCaught exception: " + e });
       if (e instanceof RpcError) console.log(JSON.stringify(e.json, null, 2));
     }
@@ -449,61 +455,68 @@ class App extends Component {
   }
 
   async close_game() {
-    const actionName = "close";
-    const actionData = {
-      challenger: this.eosio.account.name,
-      host: this.props.game_selected
-    };
     try {
+      const actionName = "close";
+      const actionData = {
+        challenger: this.eosio.account.name,
+        host: this.props.game_selected
+      };
+
       await this.eosio.transaction(actionName, actionData);
     } catch (e) {
       console.log("\nCaught exception: " + e);
+      clearTimeout(this.error_timer);
       this.setState({ errormessage: "\nCaught exception: " + e });
       if (e instanceof RpcError) console.log(JSON.stringify(e.json, null, 2));
     }
   }
 
   async create_game(host) {
-    //console.log("tried to create game");
-    const actionName = "createjgames";
-    const actionData = {
-      host: this.eosio.account.name
-    };
     try {
+      //console.log("tried to create game");
+      const actionName = "createjgames";
+      const actionData = {
+        host: this.eosio.account.name
+      };
+
       await this.eosio.transaction(actionName, actionData);
     } catch (e) {
       console.log("\nCaught exception: " + e);
+      clearTimeout(this.error_timer);
       this.setState({ errormessage: "\nCaught exception: " + e });
       if (e instanceof RpcError) console.log(JSON.stringify(e.json, null, 2));
     }
   }
 
   async move(C1, C2) {
-    const actionName = "move";
-    const actionData = {
-      host: this.props.game_selected,
-      //by: this.state.challenger_name,
-      by: this.eosio.account.name,
-      cell_clicked1: C1,
-      cell_clicked2: C2
-    };
     try {
+      const actionName = "move";
+      const actionData = {
+        host: this.props.game_selected,
+        //by: this.state.challenger_name,
+        by: this.eosio.account.name,
+        cell_clicked1: C1,
+        cell_clicked2: C2
+      };
+
       await this.eosio.transaction(actionName, actionData);
     } catch (e) {
       console.log("\nCaught exception: " + e);
+      clearTimeout(this.error_timer);
       this.setState({ errormessage: "\nCaught exception: " + e });
       if (e instanceof RpcError) console.log(JSON.stringify(e.json, null, 2));
     }
   }
 
   async stealturn() {
-    //console.log("stealturn");
-    const actionName = "stealturn";
-    const actionData = {
-      host: this.props.game_selected,
-      by: this.eosio.account.name
-    };
     try {
+      //console.log("stealturn");
+      const actionName = "stealturn";
+      const actionData = {
+        host: this.props.game_selected,
+        by: this.eosio.account.name
+      };
+
       await this.eosio.transaction(actionName, actionData);
     } catch (e) {
       console.log("\nCaught exception: " + e);
@@ -513,29 +526,32 @@ class App extends Component {
   }
 
   async joingame() {
-    const actionName = "joinhostgame";
-    const actionData = {
-      host: this.props.game_selected,
-      challenger: this.eosio.account.name
-    };
-    //console.log("join game");
     try {
+      const actionName = "joinhostgame";
+      const actionData = {
+        host: this.props.game_selected,
+        challenger: this.eosio.account.name
+      };
+      //console.log("join game");
+
       await this.eosio.transaction(actionName, actionData);
     } catch (e) {
       console.log("\nCaught exception: " + e);
+      clearTimeout(this.error_timer);
       this.setState({ errormessage: "\nCaught exception: " + e });
       if (e instanceof RpcError) console.log(JSON.stringify(e.json, null, 2));
     }
   }
 
   async enqueue() {
-    const actionName = "buyqueue";
-    const actionData = {
-      host: this.props.game_selected,
-      buyer: this.eosio.account.name,
-      quantity: 3
-    };
     try {
+      const actionName = "buyqueue";
+      const actionData = {
+        host: this.props.game_selected,
+        buyer: this.eosio.account.name,
+        quantity: 3
+      };
+
       await this.eosio.transaction(actionName, actionData);
       //console.log(result);
       //this.getBalance(); // We can check a user's EOS balance.
@@ -547,35 +563,39 @@ class App extends Component {
   }
 
   async refund() {
-    const actionName = "refundtoken";
-    const actionData = {
-      host: this.props.game_selected,
-      challenger: this.eosio.account.name
-    };
     try {
+      const actionName = "refundtoken";
+      const actionData = {
+        host: this.props.game_selected,
+        challenger: this.eosio.account.name
+      };
+
       await this.eosio.transaction(actionName, actionData);
       //console.log(result);
       //this.getBalance(); // We can check a user's EOS balance.
     } catch (e) {
       console.log("\nCaught exception: " + e);
+      clearTimeout(this.error_timer);
       this.setState({ errormessage: "\nCaught exception: " + e });
       if (e instanceof RpcError) console.log(JSON.stringify(e.json, null, 2));
     }
   }
 
   async invoice_token_scatter() {
-    //console.log(this.state.token_qty);
-    const actionData = {
-      to: "blockcoined1",
-      quantity: this.state.token_qty,
-      memo: this.props.game_selected
-    };
     try {
+      //console.log(this.state.token_qty);
+      const actionData = {
+        to: "blockcoined1",
+        quantity: this.state.token_qty,
+        memo: this.props.game_selected
+      };
+
       await this.eosio.tokenTransfer(actionData);
       //console.log(result);
       //this.getBalance(); // We can check a user's EOS balance.
     } catch (e) {
       console.log("\nCaught exception: " + e);
+      clearTimeout(this.error_timer);
       this.setState({ errormessage: "\nCaught exception: " + e });
       if (e instanceof RpcError) console.log(JSON.stringify(e.json, null, 2));
     }
@@ -747,9 +767,10 @@ class App extends Component {
 
   Draw_error() {
     if (this.state.errormessage !== "") {
-      this.timer2 = setInterval(() => {
+      this.error_timer = setTimeout(() => {
         this.setState({ errormessage: "" });
       }, 10000);
+
       //console.log('error message: ', this.state.errormessage);
       return <Message error content={this.state.errormessage} />;
     }
@@ -805,6 +826,22 @@ class App extends Component {
             onClick={e => this.enqueue()}
           >
             Buy Queues
+          </Button>
+          <Button
+            color={typeof this.eosio.account === "undefined" ? "red" : "green"}
+            onClick={e => {
+              this.eosio.removeIdentity();
+            }}
+          >
+            Logout
+          </Button>
+          <Button
+            color={typeof this.eosio.account !== "undefined" ? "red" : "green"}
+            onClick={e => {
+              this.eosio.connectIdentity();
+            }}
+          >
+            Login
           </Button>
           <Input
             action={

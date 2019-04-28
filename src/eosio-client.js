@@ -11,11 +11,15 @@ class EOSIOClient extends React.Component {
     super(contractAccount);
     this.contractAccount = contractAccount;
     this.redux_network = redux_network;
+    this.connected = true;
     ScatterJS.plugins(new ScatterEOS());
 
     try {
       ScatterJS.scatter.connect(this.contractAccount).then(connected => {
-        if (!connected) return console.log("Issue Connecting");
+        if (!connected) {
+          this.connected = false;
+          return console.log("Issue Connecting");
+        }
         const scatter = ScatterJS.scatter;
         const requiredFields = {
           accounts: [this.redux_network.network] // We defined this above
@@ -91,6 +95,39 @@ class EOSIOClient extends React.Component {
         expireSeconds: 30
       }
     );
+  };
+
+  removeIdentity = () => {
+    ScatterJS.scatter
+      .forgetIdentity()
+      .then(() => {
+        console.log("Detach Identity");
+      })
+      .catch(e => {
+        if (e.code === 423) {
+          console.log("No identity to detach");
+        }
+      });
+  };
+
+  connectIdentity = () => {
+    ScatterJS.scatter
+      .getIdentity({
+        accounts: [this.redux_network.network] // We defined this above
+      })
+      .then(() => {
+        this.account = ScatterJS.scatter.identity.accounts.find(
+          x => x.blockchain === "eos"
+        );
+        const rpc = new JsonRpc(this.redux_network.endpoint);
+        this.eos = ScatterJS.scatter.eos(this.redux_network.network, Api, {
+          rpc
+        });
+      });
+  };
+
+  getConnectionStatus = () => {
+    return this.connected;
   };
 }
 
