@@ -117,6 +117,7 @@ class Stats extends Component {
     this.stats = {};
     this.game_list = [];
     this.first_scan = 1;
+    this.updategamelist = false;
     this.state = {
       stats: {},
       game_list: [],
@@ -141,7 +142,14 @@ class Stats extends Component {
     this.timer = null; // here...
     this.mounted = false;
   }
-
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      if (this.updategamelist) {
+        this.fetch_game_list();
+        this.updategamelist = false;
+      }
+    }
+  }
   async fetch_player_table() {
     try {
       var resp = await this.props.redux_network.rpc.get_table_rows({
@@ -209,7 +217,7 @@ class Stats extends Component {
     });
 
     this.setState({ game_list: games });
-    return games;
+    this.setState({ game_selected: this.state.game_list[0].value });
   }
 
   get_currentplayer() {
@@ -271,6 +279,7 @@ class Stats extends Component {
               onChange={(event, { value }) => {
                 this.setNetwork(value);
                 this.setState({ network_selected: value });
+                this.updategamelist = true;
               }}
             />
 

@@ -10,23 +10,22 @@ import { JsonRpc } from "eosjs";
 
 const fetch = require("node-fetch");
 
-const endpoint_jungle = "https://jungle2.cryptolions.io:443";
-
-const rpc = new JsonRpc(endpoint_jungle, { fetch });
-
-const network_jungle = {
+const endpoint_mainnet = "https://eos.greymass.com:443";
+const network_mainnet = {
   blockchain: "eos",
   protocol: "https",
-  host: "jungle2.cryptolions.io",
+  host: "eos.greymass.com",
   port: 443,
-  chainId: "e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473"
+  chainId: "aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906"
 };
+
+const rpc = new JsonRpc(endpoint_mainnet, { fetch });
 
 const initialState = {
   grid: [],
   pose_toggle: 0,
   animation_ctrl: {},
-  network: { rpc: rpc, endpoint: endpoint_jungle, network: network_jungle }
+  network: { rpc: rpc, endpoint: endpoint_mainnet, network: network_mainnet }
 };
 
 function rootReducer(state = initialState, action) {

@@ -2,9 +2,6 @@ import React from "react";
 import { Api, JsonRpc } from "eosjs";
 import ScatterJS from "scatterjs-core";
 import ScatterEOS from "scatterjs-plugin-eosjs2";
-//import { defaultCipherList } from "constants";
-//const rpc = new JsonRpc('http://145.239.133.201:8888', { fetch });
-//const endpoint = 'http://192.168.80.131:8888';
 
 class EOSIOClient extends React.Component {
   constructor(contractAccount, { redux_network }) {
