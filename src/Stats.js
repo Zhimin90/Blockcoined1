@@ -19,13 +19,13 @@ import "./Stats.css";
 //const rpc = new JsonRpc('http://192.168.80.133:8888', { fetch });
 //const rpc = new JsonRpc("https://jungle2.cryptolions.io:443", { fetch });
 
-const endpoint_mainnet = "https://jungle2.cryptolions.io:443";
+const endpoint_mainnet = "https://mainnet.genereos.io:443";
 const network_mainnet = {
   blockchain: "eos",
   protocol: "https",
-  host: "jungle2.cryptolions.io",
+  host: "mainnet.genereos.io",
   port: 443,
-  chainId: "e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473"
+  chainId: "aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906"
 };
 
 const endpoint_jungle = "https://jungle2.cryptolions.io:443";
