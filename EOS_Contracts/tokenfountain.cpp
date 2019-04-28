@@ -26,7 +26,7 @@
 
 using namespace eosio;
 
-//This contract will distribute token at a limited rate of every 172800 blocks 100 tokens. Players can claim 100 tokens once 172800 blocks has been passed.
+//This contract will distribute token at a limited rate of every 86400 seconds 50 tokens. Players can claim 50 tokens once 86400 seconds has been passed.
 //Once all tokens issued to this contract has been claimed, the token contract will stop issuing tokens permenantly.
 
 class[[eosio::contract]] TokenFountain : public contract
@@ -65,14 +65,14 @@ class[[eosio::contract]] TokenFountain : public contract
         if (itr_c == claim_token.end())
         {
             print("did not find table ");
-            claim_token.emplace(_self, [&](auto &row) { row.contract = _self; row.num_of_claimable_token = 1000; });
+            claim_token.emplace(_self, [&](auto &row) { row.contract = _self; row.num_of_claimable_token = 15000000; });
         }
         itr_c = claim_token.find(_self.value);
         int num_of_claimable_token = itr_c->num_of_claimable_token;
         accounts accountstable("blocointoken"_n, _self.value);
         eosio::symbol symbol("BLC", 4);
         const auto &ac = accountstable.get(symbol.code().raw());
-        asset amount(1000000, eosio::symbol("BLC", 4));
+        asset amount(500000, eosio::symbol("BLC", 4));
         asset claimable_amount(num_of_claimable_token * 10000, eosio::symbol("BLC", 4));
         //number_of_claimable token has more than 100 tokens available
         //eosio_assert(ac.balance > amount.balance, "free token claim period has ended");
@@ -91,7 +91,7 @@ class[[eosio::contract]] TokenFountain : public contract
         }
         else
         {
-            eosio_assert(itr->last_claimed_time + 120 < timestamp, "please wait one day until each claim");
+            eosio_assert(itr->last_claimed_time + 86400 < timestamp, "please wait one day until each claim");
             existing_claimed_table.modify(itr, recipient, [&](auto &row) { row.last_claimed_time = timestamp; });
         }
         //send token 100 tokens to recipient from this contract below
