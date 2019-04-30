@@ -404,6 +404,8 @@ class App extends Component {
 
       if (resp.rows[0].winner !== "none") {
         this.setState({ winner: resp.rows[0].winner });
+      } else {
+        this.setState({ winner: "none" });
       }
 
       //this.setState({graph_save: nGraph})
